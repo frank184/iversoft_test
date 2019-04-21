@@ -14,13 +14,11 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->increments('id');
+            $table->integer('user_roles_id')->unsigned()->nullable()->references('id')->on('user_roles');
+            $table->string('username')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->nullableTimestamps();
         });
     }
 
@@ -34,3 +32,13 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('users');
     }
 }
+
+// CREATE TABLE `users` (
+//   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+//   `user_roles_id` int(11) unsigned DEFAULT NULL,
+//   `username` varchar(255) DEFAULT NULL,
+//   `email` varchar(255) DEFAULT NULL,
+//   `created_at` timestamp NULL DEFAULT NULL,
+//   `updated_at` timestamp NULL DEFAULT NULL,
+//   PRIMARY KEY (`id`)
+// ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
